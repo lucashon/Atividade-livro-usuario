@@ -133,3 +133,23 @@ cursor: pointer;
 .actions .edit-btn{
     border: 1px solid yellow;
 }
+
+.cont-livro{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cont-livro div{
+    border: 2px solid sandybrown;
+    border-radius: 8px;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 15rem;
+}
+.cont-livro h2{
+ color: rgb(165, 61, 61);
+}

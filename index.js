@@ -63,27 +63,16 @@ app.get('/users/:id', async (req,res)=>{
 
 })
 
-app.get('/users/:id', async (req,res)=>{
-    const id = req.params.id
-
-
-
-    const livro = await Livros.findOne({raw: true, where: { id:id } })
-    console.log(user)
-    return res.render('viewuser', {livro})
-    
-
-})
 
 //Deletando Dados
 app.post('/users/detele/:id', async (req,res)=>{
     const id = req.params.id
     await User.destroy({where: { id:id } })
-
-
+    
+    
     return res.redirect('/')
     
-
+    
 })  
 
 
@@ -98,7 +87,7 @@ app.get('/users/edit/:id', async (req,res)=>{
 
 })
 
- app.post('/users/update/:id', async(req,res)=>{
+app.post('/users/update/:id', async(req,res)=>{
     const {id, name, occupation} = req.body
     let newsletter = req.body.newsletter
     console.log('ddddd')
@@ -107,7 +96,7 @@ app.get('/users/edit/:id', async (req,res)=>{
     }else{
         newsletter = false
     }
-
+    
     const UserData = {
         id,
         name, 
@@ -115,10 +104,10 @@ app.get('/users/edit/:id', async (req,res)=>{
         newsletter
     }
     await User.update(UserData, {where: {id : id} })
-
+    
     return res.redirect('/')
-
- })
+    
+})
 
 
 //////////////////////////////
@@ -127,30 +116,31 @@ app.get('/users/edit/:id', async (req,res)=>{
 
 
 app.get('/livro/add', (req,res)=>{
-
- return res.render('addlivro')
-
+    
+    return res.render('addlivro')
+    
 })
+
 
 
 // add
 app.post('/livro/add', async(req,res)=>{
     const {autor, titulo, preco} = req.body
     let capa = req.body.capa
-
+    
     if(capa === 'on'){
         capa = true
     }else{
         capa = false
     }
-
+    
     console.log(req.body)
-
+    
     await Livro.create({autor,titulo,preco,capa})
-
-    return res.redirect('/')
- 
-
+    
+    return res.redirect('/home/livros')
+    
+    
 })
 
 // mostrar
@@ -158,11 +148,22 @@ app.get('/', async (req,res)=>{
     const users = await User.findAll({raw: true})
     console.log(users)
     
-
+    
     return res.render('home', { users})
-
+    
 })
 
+
+// Unico LIVRO 
+app.get('/livro/:id', async (req,res)=>{
+    const id = req.params.id
+
+    const livro = await Livro.findOne({raw: true, where: { id:id } })
+
+    return res.render('viewlivro', {livro})
+    
+
+})
 
 // EDITAR
 // Editar 1 etapa
@@ -172,8 +173,8 @@ app.get('/livro/edit/:id', async (req,res)=>{
     const livro = await Livro.findOne({raw:true, where: {id:id}});
     return res.render('editlivro', {livro})
     
-
-})
+    
+})    
 
  app.post('/livro/update/:id', async(req,res)=>{
     const {id, autor, titulo, preco} = req.body
